@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    container_name: talentlink-backend
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  frontend:
+    build: ./frontend
+    container_name: talentlink-frontend
+    ports:
+      - "3000:3000"
+    env_file: .env
+    depends_on:
+      - backend
+
+  worker:
+    build: ./backend
+    container_name: talentlink-worker
+    command: celery -A app.worker worker --loglevel=info
+    env_file: .env
+    depends_on:
+      - backend
+      - redis
+      - db
+
+  db:
+    image: docker.io/library/postgres:14   # 👈 explicitly Docker Hub
+    container_name: talentlink-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: talentlink
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: docker.io/library/redis:6       # 👈 explicitly Docker Hub
+    container_name: talentlink-redis
+    ports:
+      - "6379:6379"
+

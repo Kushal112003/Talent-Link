@@ -1,0 +1,34 @@
+# Environments
+.env
+.env.*
+!.env.example
+
+# General
+.DS_Store
+*.zip
+*.tar.gz
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.pytest_cache/
+*.sqlite3
+*.db
+
+# Node.js / Next.js
+node_modules/
+.next/
+out/
+build/
+.npm/
+coverage/
+.vercel/
